@@ -36,7 +36,7 @@ const UserID = dbUserID.model('UserRegister', userSchema, 'UserID');
 var indexRouter = require('./routes/index');
 var app = express();
 app.use(cors({
-  origin: 'https://your-frontend-name.vercel.app', // URL ของ Frontend บน Vercel
+  origin: 'https://test2-bay-mu.vercel.app/', // URL ของ Frontend บน Vercel
   credentials: true // จำเป็นอย่างยิ่งสำหรับการส่ง Session/Cookie
 }));
 app.use(logger('dev'));
