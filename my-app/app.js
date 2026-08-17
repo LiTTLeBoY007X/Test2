@@ -36,8 +36,8 @@ const UserID = dbUserID.model('UserRegister', userSchema, 'UserID');
 var indexRouter = require('./routes/index');
 var app = express();
 app.use(cors({
-  origin: 'http://localhost:5173', // 👈 ใส่ URL หน้าบ้านของคุณ (เช่น Vite Port 5173 หรือ CRA Port 3000)
-  credentials: true                // 👈 อนุญาตให้รับ-ส่ง Cookie/Session
+  origin: 'https://your-frontend-name.vercel.app', // URL ของ Frontend บน Vercel
+  credentials: true // จำเป็นอย่างยิ่งสำหรับการส่ง Session/Cookie
 }));
 app.use(logger('dev'));
 app.use(express.json());
@@ -50,6 +50,7 @@ app.set('UserID', UserID);
 
 
 // 2. วางโค้ด Session ตรงนี้ (ก่อน Route ทั้งหมด)
+app.set('trust proxy', 1);
 app.use(session({
   secret: USER_ID_KEY,
   resave: false,
@@ -61,7 +62,8 @@ app.use(session({
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 วัน
     httpOnly: true,
-    secure: false
+    secure: true,     // 👈 เปลี่ยนจาก false เป็น true (เพราะ Render เป็น HTTPS)
+    sameSite: 'none'  // 👈 เพิ่มบรรทัดนี้ เพื่อให้ส่ง Cookie ข้ามไป Vercel ได้
   }
 }));
 
