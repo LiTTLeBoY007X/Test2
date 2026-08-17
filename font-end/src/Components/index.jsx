@@ -10,7 +10,9 @@ function MenuScore() {
         try {
             // ยิงไปเช็ก session ที่ backend โดยแนบ Cookie ไปด้วย
             const response = await axios.get(`${API_URL}/check-auth`, {
-            withCredentials: true // 👈 สำคัญมาก: เพื่อแนบ Cookie ไปกับ Request
+             // 👈 สำคัญมาก: เพื่อแนบ Cookie ไปกับ Request
+            }, {
+                withCredentials: true
             });
 
             if (response.data.isAuthenticated) {
