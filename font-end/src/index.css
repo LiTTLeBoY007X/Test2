@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+* {
+  font-family: 'Kanit', sans-serif !important;
+}
+
+html, body, #root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+body {
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    background-image: url('./assets/IMG_2261.jpg');
+    background-attachment: fixed;
+}   
