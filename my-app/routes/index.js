@@ -36,24 +36,33 @@ router.get('/check-auth', async (req, res, next) => {
   
 
 
-/* GET home page. */
 router.post('/user', async (req, res, next) => {
-  const { username, tel, password } = req.body;
+  const { usernameRegister, telRegister, passwordRegister } = req.body;
+  
   const UserID = req.app.get('UserID');
-
-  if (!username || !tel || !password) {
+  if (!usernameRegister || !telRegister || !passwordRegister) {
     return res.status(400).json({ message: 'ยังใส่ข้อมูลไม่ครบ' });
+  } 
+  const mobileRegex = /^0[689]\d{8}$/;
+  if (!mobileRegex.test(telRegister)) {
+    return res.status(400).json({ 
+      message: 'เบอร์โทรศัพท์ไม่ถูกต้อง' 
+    });
   }
-
   try {
-    // 1. เข้ารหัส Password เพื่อความปลอดภัย
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const userNumber = await UserID.findOne( { tel: Number(telRegister) },'tel')
+    if (userNumber) {
+      console.log("❌ เบอร์โทรนี้มีผู้ใช้งานแล้ว:", telRegister);
+      return res.status(409).json({ message: 'เบอร์โทรศัพท์นี้ถูกใช้งานไปแล้ว ลองเข้าสู่ระบบแทน'});
+    }
+    
+    const hashedPassword = await bcrypt.hash(passwordRegister, 10);
 
     // 2. บันทึกข้อมูลผู้ใช้ลง Collection 'UserID'
     const newUser = new UserID({
-      username: username,
+      username: usernameRegister,
       password: hashedPassword,
-      tel: tel
+      tel: telRegister
     });
     await newUser.save();
 

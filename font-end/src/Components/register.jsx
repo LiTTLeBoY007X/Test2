@@ -4,6 +4,7 @@ import shieldUserIcon from '../assets/shield-user-svgrepo-com.svg'; // ปรั
 import callChatIcon from '../assets/call-chat-svgrepo-com.svg';
 import keySquareIcon from '../assets/key-square-svgrepo-com.svg';
 import logoWeb from '../assets/77DB8929-B1F3-4A50-AC08-1A763457A2B2.png';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 
 function UserRegister() {
@@ -11,17 +12,17 @@ function UserRegister() {
     const [UserName,setUserName] = useState('')
     const [Tel,setTel] = useState('')
     const [Password,setPassword] = useState('')
-
-    if (UserName !== '') {
-    console.log(UserName);
-    }
     const SubmitButton = async (e) => {
         e.preventDefault();
+        if (Tel.length !== 10) {
+            alert('กรุณากรอกเบอร์โทรศัพท์ให้ครบ 10 หลัก');
+            return;
+        }
         try {
-            const response = await axios.post('https://test2-cwly.onrender.com/user', {
-                username: UserName,
-                tel: Tel,
-                password: Password
+            const response = await axios.post(`${API_URL}/user`, {
+                usernameRegister: UserName,
+                telRegister: Tel,
+                passwordRegister: Password
                 
             },
             {
@@ -31,10 +32,22 @@ function UserRegister() {
             
         if (response.data.success) {
             window.location.href = response.data.redirectUrl || '/';
+            console.log(response.data.success)
         }
         } catch (error) {
-        alert('ยังกรอกข้อมูลไม่ครบ!');
-        console.error('เกิดข้อผิดพลาด:', error);
+            // ดึงข้อความอย่างปลอดภัย ไม่ให้เว็บค้างหากไม่พบ response
+            const errorMessage = error.response?.data?.message || 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้';
+            console.error('Register Error:', errorMessage);
+
+            // กรณีเบอร์โทรซ้ำ (Status 409) ให้ถามเพื่อนำทางไปหน้า Login
+            if (error.response?.status === 409) {
+                const goToLogin = window.confirm(`${errorMessage}\n\nต้องการไปหน้าเข้าสู่ระบบตอนนี้เลยหรือไม่?`);
+                if (goToLogin) {
+                    window.location.href = '/login';
+                }
+            } else {
+                alert(errorMessage);
+            }
         }
     };
 
@@ -59,7 +72,7 @@ function UserRegister() {
                 </div>
                 <div className='PassWord-Form-Input-Container shadow-[0px_0px_20px_-14px_#000000] mb-3 rounded-xl flex justify-start'>
                     <img src={keySquareIcon} className='w-[40px] bg-[#CDFFE1] rounded-xl p-1'/>
-                    <input className='p-2 focus:outline-none w-full ' type='password' placeholder='รหัสผ่าน' onChange={(e) => setPassword(e.target.value)}></input>
+                    <input className='p-2 focus:outline-none w-full ' type='password' value={Password} placeholder='รหัสผ่าน' onChange={(e) => setPassword(e.target.value)}></input>
                 </div>
                 <div className='Button-Form-Input-Container bg-[#11c140] hadow-[0px_0px_20px_-14px_#000000] mb-3 rounded-xl flex justify-start'>
                     <input className='p-2 focus:outline-none text-center w-full text-white' type='submit' value="สมัครบัญชี"></input>

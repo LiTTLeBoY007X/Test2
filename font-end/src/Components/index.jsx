@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import NavBar from './navbar';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 function MenuScore() {
     const [Userdata, setUserdata] = useState(null)
@@ -8,7 +9,7 @@ function MenuScore() {
         const checkAuth = async () => {
         try {
             // ยิงไปเช็ก session ที่ backend โดยแนบ Cookie ไปด้วย
-            const response = await axios.get('https://test2-cwly.onrender.com/check-auth', {
+            const response = await axios.get(`${API_URL}/check-auth`, {
             withCredentials: true // 👈 สำคัญมาก: เพื่อแนบ Cookie ไปกับ Request
             });
 

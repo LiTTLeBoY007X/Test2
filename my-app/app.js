@@ -33,11 +33,10 @@ const UserID = dbUserID.model('UserRegister', userSchema, 'UserID');
 
 
 
-var indexRouter = require('./routes/index');
 var app = express();
 app.use(cors({
-  origin: 'https://test2-bay-mu.vercel.app', // URL ของ Frontend บน Vercel
-  credentials: true // จำเป็นอย่างยิ่งสำหรับการส่ง Session/Cookie
+  origin: ['http://localhost:5173', 'http://localhost:5174', 'https://test2-bay-mu.vercel.app' ], 
+  credentials: true 
 }));
 app.use(logger('dev'));
 app.use(express.json());
@@ -62,8 +61,8 @@ app.use(session({
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 วัน
     httpOnly: true,
-    secure: true,     // 👈 เปลี่ยนจาก false เป็น true (เพราะ Render เป็น HTTPS)
-    sameSite: 'none'  // 👈 เพิ่มบรรทัดนี้ เพื่อให้ส่ง Cookie ข้ามไป Vercel ได้
+    secure: process.env.NODE_ENV === 'production', // 👈 บน Local (HTTP) จะเป็น false, บน Render (HTTPS) จะเป็น true
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'  // 👈 เพิ่มบรรทัดนี้ เพื่อให้ส่ง Cookie ข้ามไป Vercel ได้
   }
 }));
 
@@ -71,6 +70,7 @@ app.use(session({
 
 
 
+var indexRouter = require('./routes/index');
 
 app.use('/', indexRouter);
 

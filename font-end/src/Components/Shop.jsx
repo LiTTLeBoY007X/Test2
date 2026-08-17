@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavBar from "./navbar"
 import pic from "../assets/hero.png"
-
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 function Shop() {
 
 const [items, setItems] = useState([]);
 
   // โหลดข้อมูลเมื่อเปิดหน้าเว็บ
   useEffect(() => {
-    axios.get('https://test2-cwly.onrender.com/shopPreviews')
+    axios.get(`${API_URL}/shopPreviews`)
       .then(res => {
         setItems(res.data); // บันทึกข้อมูลที่ดึงได้ลง State
       })
