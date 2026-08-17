@@ -8,7 +8,7 @@ function MenuScore() {
         const checkAuth = async () => {
         try {
             // ยิงไปเช็ก session ที่ backend โดยแนบ Cookie ไปด้วย
-            const response = await axios.get('http://localhost:3000/check-auth', {
+            const response = await axios.get('https://test2-cwly.onrender.com/check-auth', {
             withCredentials: true // 👈 สำคัญมาก: เพื่อแนบ Cookie ไปกับ Request
             });
 

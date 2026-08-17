@@ -9,7 +9,7 @@ const [items, setItems] = useState([]);
 
   // โหลดข้อมูลเมื่อเปิดหน้าเว็บ
   useEffect(() => {
-    axios.get('http://localhost:3000/shopPreviews')
+    axios.get('https://test2-cwly.onrender.com/shopPreviews')
       .then(res => {
         setItems(res.data); // บันทึกข้อมูลที่ดึงได้ลง State
       })

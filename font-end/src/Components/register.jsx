@@ -18,7 +18,7 @@ function UserRegister() {
     const SubmitButton = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/user', {
+            const response = await axios.post('https://test2-cwly.onrender.com/user', {
                 username: UserName,
                 tel: Tel,
                 password: Password
