@@ -27,7 +27,7 @@ const [items, setItems] = useState([]);
         </div>
         <div className='flex flex-col gap-[20px] mt-[70px] mb-[80px]'>
             {items.map((item) => (
-            <div key={item._id} className='grid ่ items-center grid-cols-[100px_auto] grid-rows-2  gap-[4px] w-[300px]  bg-white bor rounded-2xl h-[130px]'>
+            <div key={item._id} className='grid  items-center grid-cols-[100px_auto] grid-rows-2  gap-[4px] w-[300px]  bg-white  rounded-2xl h-[130px]'>
                 <img className='w-[100px] row-span-2 m-[15px]' src={pic} alt='' />
                 <div className='flex justify-center items-center flex-col'>
                     <div className='text-center'>{item.nameShop_text}</div>
@@ -36,7 +36,7 @@ const [items, setItems] = useState([]);
                 </div>
     
                 <div className="col-start-2 flex justify-center items-center">
-                    <input  type="submit" value="แลกของรางวัล" className='bg-green-300 rounded-2xl w-[120px] h-[40px]' />
+                    <button className='bg-green-300 rounded-2xl w-[120px] h-[40px] cursor-pointer'  >แลกแต้ม</button>
                 </div>
             </div>
 
